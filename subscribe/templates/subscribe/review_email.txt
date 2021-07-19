@@ -1,0 +1,3 @@
+Thank you for subscribing to our service.
+
+Reviews for app: {{ app_name|safe }}
