@@ -21,8 +21,16 @@ class AppStore(models.Model):
 
 class Subscriber(models.Model):
     email = models.EmailField(unique=True)
-    google_app_id = models.ManyToManyField(GooglePlay, related_name='subscriber')
-    apple_app_id = models.ManyToManyField(AppStore, related_name='subscriber')
+    google_play = models.ManyToManyField(GooglePlay, related_name='subscriber')
+    app_store = models.ManyToManyField(AppStore, related_name='subscriber')
+
+    def __str__(self):
+        return self.email
+
+
+class Feedback(models.Model):
+    email = models.EmailField(unique=False)
+    message = models.TextField()
 
     def __str__(self):
         return self.email

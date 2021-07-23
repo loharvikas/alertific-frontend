@@ -36,11 +36,17 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    # Custom Apps
     'subscribe.apps.SubscribeConfig',
     'users.apps.UsersConfig',
+    'api.apps.ApiConfig',
+
+    # Third Party Apps
     'crispy_forms',
     "crispy_tailwind",
     'django_celery_beat',
+    'rest_framework',
+    'corsheaders'
 ]
 
 MIDDLEWARE = [
@@ -52,6 +58,14 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ]
+}
 
 ROOT_URLCONF = 'appscraper.urls'
 
@@ -152,3 +166,7 @@ CELERY_BEAT_SCHEDULE = {
         "schedule": 30.0
     }
 }
+
+CORS_ORIGIN_WHITELIST = [
+     'http://localhost:3000'
+]
