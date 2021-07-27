@@ -4,10 +4,13 @@ import {useLocation, withRouter,} from 'react-router-dom';
 import {BrowserRouter as Router, Route, Switch, Link, Redirect} from 'react-router-dom'
 import './Subscribe.css'
 
+axios.defaults.xsrfCookieName = 'csrftoken'
+axios.defaults.xsrfHeaderName = 'X-CSRFToken'
+
 const Subscribe = (props) => {
     const location = useLocation();
     const [email, setEmail] = useState("");
-    const [isSubscribe, setIsSubscribe] = useState(false);
+    const [isSubscribe, setIsSubscribe] = useState(true);
     const data = location.state.data
     const platform = location.state.services
     console.log({platform})
@@ -18,6 +21,7 @@ const Subscribe = (props) => {
             google_play:platform === 'google'? [data] : undefined,
             app_store:platform === 'apple' ? [data] : undefined,
         }
+        console.log({payload})
         axios
             .post('/api/subscribe/', payload)
             .then((res) => {
@@ -32,7 +36,8 @@ const Subscribe = (props) => {
     return (
         <div className='container'>
             <header className="subscribe-header">
-                <h1>Enter your email to get updates</h1>
+                {/* <h1>Enter your email to get updates</h1> */}
+                <h1>Where would you like to receive your alerts?</h1>
             </header>
             <div className="form-body">
                 {isSubscribe ?
@@ -50,7 +55,7 @@ const Subscribe = (props) => {
                         <input type='email' placeholder='Enter your email address' value={email} onChange={(e) => setEmail(e.target.value)}></input>
                         <p className="input-info">we will never share this with anyone else</p>
                     </div>
-                    <button className="subscribe-btn btn" type="submit">Subscribe</button>
+                    {!isSubscribe &&    <button className="subscribe-btn btn" type="submit">Subscribe</button>}
                 </form>
             </div>
         </div>

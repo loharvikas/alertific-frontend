@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from subscribe.models import Subscriber, AppStore, GooglePlay, Feedback
+from subscribe.tasks import send_subscribe_email_task, send_feedback_email_task
 
 
 class AppStoreSerializer(serializers.ModelSerializer):
@@ -27,18 +28,25 @@ class SubscriberSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         print("VALIDS:", validated_data)
-        validated_data, app_created = self.create_apps(validated_data)
-        subscriber, created = Subscriber.objects.get_or_create(email=validated_data['email'])
+        validated_data, app_created, platform = self.create_apps(validated_data)
+        subscriber, sub_created, = Subscriber.objects.get_or_create(email=validated_data['email'])
         if 'app_store' in validated_data:
-            subscriber.app_store.add(validated_data['app_store'])
+            app_store_obj = validated_data['app_store']
+            subscriber.app_store.add(app_store_obj)
+            app_name = app_store_obj.app_name
         if 'google_play' in validated_data:
-            subscriber.google_play.add(validated_data['google_play'])
+            google_play_obj = validated_data['google_play']
+            subscriber.google_play.add(google_play_obj)
+            app_name = google_play_obj.app_name
+        if app_created or sub_created:
+            send_subscribe_email_task.delay(validated_data['email'], app_name, platform)
         subscriber.save()
         return subscriber
 
     def create_apps(self, validated_data):
         google_play = validated_data.get('google_play')
         app_store = validated_data.get('app_store')
+        platform = None
         if google_play:
             google_play = google_play[0]
             app_id = google_play.pop('app_id')
@@ -50,6 +58,7 @@ class SubscriberSerializer(serializers.ModelSerializer):
                 developer_id=developer_id
             )
             validated_data['google_play'] = google_play_obj
+            platform = 'google'
 
         if app_store:
             app_store = app_store[0]
@@ -62,8 +71,9 @@ class SubscriberSerializer(serializers.ModelSerializer):
                 developer_id=developer_id
             )
             validated_data['app_store'] = app_store_obj
+            platform = 'apple'
 
-        return validated_data, created
+        return validated_data, created, platform
 
 
 class FeedbackSerializer(serializers.ModelSerializer):
@@ -72,5 +82,6 @@ class FeedbackSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
     def create(self, validated_data):
-        email = validated_data['email']
-        return Feedback.objects.create(**validated_data)
+        feedback = Feedback.objects.create(**validated_data)
+        send_feedback_email_task.delay(feedback.email, feedback.message)
+        return feedback

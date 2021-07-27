@@ -24,7 +24,7 @@ const Base = () => {
                     <header>
                         <h1>Free daily e-mail alerts of new app reviews</h1>
                         <div>
-                        <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Laudantium eaque libero earum provident rerum, repellat quae dolor iure quas ipsum.</p>
+                       
                         </div>
                     </header>
                 </main>

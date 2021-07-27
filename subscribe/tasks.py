@@ -3,12 +3,18 @@ from subscribe.email import send_subscribed_email, send_review_email
 from celery.utils.log import logger
 from .scrapper import fetch_reviews_from_google_play, fetch_reviews_from_app_store
 from .models import Subscriber, GooglePlay, AppStore
+from .email import send_feedback_email
 
 
 @shared_task
-def send_subscribe_email_task(email, app_id):
+def send_subscribe_email_task(email, app_id, platform):
     logger.info("Sent email")
-    return send_subscribed_email(email, app_id)
+    return send_subscribed_email(email, app_id, platform)
+
+@shared_task
+def send_feedback_email_task(email, message):
+    logger.info("Sent email")
+    return send_feedback_email(email, message)
 
 
 @shared_task
@@ -35,8 +41,9 @@ def scrap_google_play():
 def scrap_app_store():
     apps = AppStore.objects.all()
     for app in apps:
-        print("APP:",app)
+        print("APP:", app)
         scrap_app_reviews_for_app_store.delay(app.pk)
+
 
 @shared_task
 def scrap_app_reviews_for_app_store(id):
@@ -51,6 +58,7 @@ def scrap_app_reviews_for_app_store(id):
                                      app_name=app.app_name,
                                      service="App store"
                                      )
+
 
 @shared_task
 def scrap_app_reviews_for_google_play(id):

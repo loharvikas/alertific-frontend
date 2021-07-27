@@ -27,7 +27,7 @@
 .form-body input {
     width: 100%;
     font-size: 1.3rem;
-    /* margin-top: 1rem; */
+    margin-top: 0.5rem;
     
     padding: 0.5rem 1rem;
     border-radius: var(--border-radius);
@@ -37,9 +37,10 @@
 .form-body .input-info {
     color: gray;
     font-weight: bold;
-    margin-bottom: 0.3rem;
+    margin-bottom: 0.5rem;
     margin-left: 0.3rem;
     font-size: 14px;
+
 }
 
 .form-body input:focus {

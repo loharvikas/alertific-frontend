@@ -9,6 +9,7 @@
 
 .platform {
     margin-top: 2rem;
+    
 }
 
 .platform .title {
@@ -66,6 +67,6 @@
     .platform .platform-container .platform-item {
         width: 100%;
         margin: 0;
-        margin-top: 1rem;
+        margin: 2rem 0;
     }
 }

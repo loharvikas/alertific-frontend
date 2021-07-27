@@ -1,11 +1,17 @@
 import {React, useState, } from 'react';
 import {withRouter} from 'react-router-dom';
 import axios from 'axios';
-import Result from './Result'
+import Result from './Result';
+import { trackPromise } from 'react-promise-tracker'
 import './Search.css'
+import {usePromiseTracker} from 'react-promise-tracker';
+import {Loader} from 'react-loader-spinner'
+import Spinner from 'react-bootstrap/Spinner'
+
 
 const Search = (props) => {
     const [appList, setAppList] = useState("");
+    const { promiseInProgress } = usePromiseTracker();
     const platform = props.match.params.platform;
     // const {platform} = location.state;
     console.log('props:', props.match.params.platform)
@@ -15,11 +21,13 @@ const Search = (props) => {
     //   }
 
     async function fetchApps(app_name) {
-        if(app_name.length > 0) {     
-            axios
-                .get(`/${platform}/${app_name}/`)
-                .then((res) => setAppList(res.data))
-                .catch((err) => console.error(err))
+        if(app_name.length > 0) {
+            trackPromise(     
+                axios
+                    .get(`/${platform}/${app_name}/`)
+                    .then((res) => setAppList(res.data))
+                    .catch((err) => console.error(err))
+            )
         }
         setAppList('')
     }
@@ -28,7 +36,7 @@ const Search = (props) => {
         <div className="container">
 
             <div className="header">
-                <h1>Search for app</h1>
+                <h1>Search for an app</h1>
             </div>
             <div className="form-container">
                 <form classNam="form">
@@ -47,23 +55,5 @@ const Search = (props) => {
     )
 }
 
-
-// const Result = (props) => {
-//     return (
-//         <div className="result">
-//             <div>
-//                 <div className="img"></div>
-//                 <div className="content">
-//                     <h1 className="title">Instagram</h1>
-//                     <p className="info">Instagram Inc,</p>
-//                 </div>
-//                 <div>
-//                     <button type="submit" className='btn'>Select</button>
-//                 </div>
-//             </div>
-
-//         </div>
-//     )
-// }
 
 export default withRouter(Search)

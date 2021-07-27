@@ -3,9 +3,10 @@ from django.template.loader import render_to_string
 from django.conf import settings
 
 
-def send_subscribed_email(email, app_id):
+def send_subscribed_email(email, app_id, platform):
     context = {
         'app_name': app_id,
+        'platform': platform
     }
 
     email_subject = "Thank you for subscribing to our service"
@@ -17,6 +18,25 @@ def send_subscribed_email(email, app_id):
         [email, ]
     )
     return email.send(fail_silently=False)
+
+
+def send_feedback_email(email, message):
+    context = {
+        'email': email,
+        'message': message,
+    }
+    email_subject = f"Feedback from {email}"
+    email_body = render_to_string("subscribe/feedback_email.txt", context)
+    html_content = render_to_string("subscribe/feedback_email.html", context)
+    email = EmailMultiAlternatives(
+        email_subject,
+        email_body,
+        settings.DEFAULT_FROM_EMAIL,
+        [settings.DEFAULT_FROM_EMAIL, ]
+    )
+    email.attach_alternative(html_content, "text/html")
+    email.send(fail_silently=False)
+    print("SEND")
 
 
 def send_review_email(email, app_name, app_id, reviews, service):

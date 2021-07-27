@@ -3,10 +3,19 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import {usePromiseTracker} from 'react-promise-tracker'
+import {Loader} from 'react-loader-spinner';
+import Footer from './Footer/Footer'
+import { FormText } from 'react-bootstrap';
+
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    {/* <div> */}
+      <App />
+      {/* <LoadingIndicator /> */}
+      <Footer></Footer>
+    {/* <div> */}
   </React.StrictMode>,
   document.getElementById('root')
 );
