@@ -1,5 +1,4 @@
-from django.shortcuts import render
-from rest_framework.viewsets import ModelViewSet, generics
+from rest_framework.viewsets import generics
 from subscribe.models import Subscriber, Feedback
 from .serializers import SubscriberSerializer, FeedbackSerializer
 from rest_framework.permissions import AllowAny

@@ -22,7 +22,7 @@ const Base = () => {
             <div className="container">
                 <main className="content">
                     <header>
-                        <h1>Free daily e-mail alerts of new app reviews</h1>
+                        <h1>Free daily alerts of new app reviews</h1>
                         <div>
                        
                         </div>

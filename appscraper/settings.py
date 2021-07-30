@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
-
+import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -91,9 +91,20 @@ WSGI_APPLICATION = 'appscraper.wsgi.application'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+     'default': {
+
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+
+        'NAME': 'app_reviews',
+
+        'USER': 'vikas',
+
+        'PASSWORD': 'vikas123',
+
+        'HOST': 'localhost',
+
+        'PORT': '',
+
     }
 }
 
@@ -132,21 +143,24 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# CRISPY FORMS
 CRISPY_ALLOWED_TEMPLATE_PACKS = "tailwind"
 
 CRISPY_TEMPLATE_PACK = "tailwind"
 
-DEFAULT_COUNTRY = 'gb'
+DEFAULT_COUNTRY = 'gb' # To extract reviews for particular country
 
 AUTH_USER_MODEL = 'users.User'
-
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+#https://itunes.apple.com/rss/customerreviews/page=1/id=1001501844/sortby=mostrecent/json?cc=gb
+# EMAIL CONFIGURATIONS
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'loharvikas76@gmail.com'
 EMAIL_HOST_PASSWORD = 'ixdjbysrfwxwjnej'
@@ -154,6 +168,7 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 DEFAULT_FORM_EMAIL = 'loharvikas76@gmail.com'
 
+# CELERY CONFIGURATIONS
 CELERY_BROKER_URL = 'redis://localhost:6379'
 CELERY_RESULT_BACKEND = 'redis://localhost:6379'
 CELERY_ACCEPT_CONTENT = ['application/json']
@@ -170,7 +185,3 @@ CELERY_BEAT_SCHEDULE = {
 CORS_ORIGIN_WHITELIST = [
      'http://localhost:3000'
 ]
-
-MAILCHIMP_API_KEY = '806a6ab037236840ad6bfeedaa4d2a8e-us6'
-MAILCHIMP_DATA_CENTER = 'us6'
-MAILCHIMP_EMAIL_LIST_ID = 'b8a28dad8c'

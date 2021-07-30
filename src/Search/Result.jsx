@@ -52,6 +52,7 @@ const App = (props) => {
                                             app_name:appName,
                                             app_id:app_id,
                                             developer_id:developerId,
+                                            app_icon:appImage
                                         },
                                         services:platform,
                                       

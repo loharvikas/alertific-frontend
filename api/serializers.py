@@ -6,13 +6,13 @@ from subscribe.tasks import send_subscribe_email_task, send_feedback_email_task
 class AppStoreSerializer(serializers.ModelSerializer):
     class Meta:
         model = AppStore
-        fields = ('app_id', 'app_name', 'developer_id')
+        fields = ('app_id', 'app_name', 'developer_id', 'app_icon')
 
 
 class GooglePlaySerializer(serializers.ModelSerializer):
     class Meta:
         model = GooglePlay
-        fields = ('app_id', 'app_name', 'developer_id')
+        fields = ('app_id', 'app_name', 'developer_id', 'app_icon')
 
 
 class SubscriberSerializer(serializers.ModelSerializer):
@@ -52,10 +52,12 @@ class SubscriberSerializer(serializers.ModelSerializer):
             app_id = google_play.pop('app_id')
             app_name = google_play.pop('app_name')
             developer_id = google_play.pop('developer_id')
+            app_icon = google_play.pop('app_icon')
             google_play_obj, created = GooglePlay.objects.get_or_create(
                 app_id=app_id,
                 app_name=app_name,
-                developer_id=developer_id
+                developer_id=developer_id,
+                app_icon=app_icon
             )
             validated_data['google_play'] = google_play_obj
             platform = 'google'
@@ -65,10 +67,12 @@ class SubscriberSerializer(serializers.ModelSerializer):
             app_id = app_store.pop('app_id')
             app_name = app_store.pop('app_name')
             developer_id = app_store.pop('developer_id')
+            app_icon = app_store.pop('app_icon')
             app_store_obj, created = AppStore.objects.get_or_create(
                 app_id=app_id,
                 app_name=app_name,
-                developer_id=developer_id
+                developer_id=developer_id,
+                app_icon=app_icon
             )
             validated_data['app_store'] = app_store_obj
             platform = 'apple'

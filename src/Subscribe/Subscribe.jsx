@@ -10,7 +10,7 @@ axios.defaults.xsrfHeaderName = 'X-CSRFToken'
 const Subscribe = (props) => {
     const location = useLocation();
     const [email, setEmail] = useState("");
-    const [isSubscribe, setIsSubscribe] = useState(true);
+    const [isSubscribe, setIsSubscribe] = useState(false);
     const data = location.state.data
     const platform = location.state.services
     console.log({platform})
@@ -18,6 +18,7 @@ const Subscribe = (props) => {
         console.log(platform)
         const payload = {
             email: email,
+            
             google_play:platform === 'google'? [data] : undefined,
             app_store:platform === 'apple' ? [data] : undefined,
         }
@@ -36,7 +37,6 @@ const Subscribe = (props) => {
     return (
         <div className='container'>
             <header className="subscribe-header">
-                {/* <h1>Enter your email to get updates</h1> */}
                 <h1>Where would you like to receive your alerts?</h1>
             </header>
             <div className="form-body">
@@ -53,9 +53,9 @@ const Subscribe = (props) => {
                 }}>
                     <div>
                         <input type='email' placeholder='Enter your email address' value={email} onChange={(e) => setEmail(e.target.value)}></input>
-                        <p className="input-info">we will never share this with anyone else</p>
+                        <p className="input-info">We will never share this with anyone else</p>
                     </div>
-                    {!isSubscribe &&    <button className="subscribe-btn btn" type="submit">Subscribe</button>}
+                    {!isSubscribe &&    <button className="subscribe-btn btn" type="submit">Create my alert</button>}
                 </form>
             </div>
         </div>

@@ -34,7 +34,7 @@ export default function ContactPage() {
                 </header>
                 {isSend && 
                     <section className="message success">
-                    <h1>Thank you for your Message!</h1>
+                    <h1>Thank you for your message!</h1>
                     </section>
                 }
                    

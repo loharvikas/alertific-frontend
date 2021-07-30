@@ -43,7 +43,7 @@ const Search = (props) => {
                     <div className="form-control">
                         <input  id='app' 
                                 className="app-input" 
-                                placeholder="Enter app name"
+                                placeholder="Enter your app name here..."
                                 onChange={e => fetchApps(e.target.value)}
                                 >
                         </input>

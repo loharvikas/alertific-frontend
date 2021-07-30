@@ -22,14 +22,6 @@ def send_app_reviews():
     scrap_google_play.delay()
     scrap_app_store.delay()
 
-
-# @shared_task
-# def get_apps(subscriber):
-#     apps = subscriber.apps.all()
-#     for app in apps:
-#         logger.info("Sending app instance")
-#         scrap_app.delay(app)
-#         logger.info("Sent app instance")
 @shared_task
 def scrap_google_play():
     apps = GooglePlay.objects.all()
@@ -56,7 +48,8 @@ def scrap_app_reviews_for_app_store(id):
                                      app_id=app.app_id,
                                      reviews=result,
                                      app_name=app.app_name,
-                                     service="App store"
+                                     platform="App Store",
+                                     app_icon=app.app_icon
                                      )
 
 
@@ -72,11 +65,12 @@ def scrap_app_reviews_for_google_play(id):
                                      app_id=app.app_id,
                                      reviews=result,
                                      app_name=app.app_name,
-                                     service="google play"
+                                     platform="Google Play",
+                                     app_icon=app.app_icon
                                      )
 
 
 @shared_task
-def send_review_email_task(email, app_name, app_id, reviews, service):
+def send_review_email_task(email, app_name, app_id, reviews, platform, app_icon):
     logger.info("SENDING REVIEW EMAIL")
-    return send_review_email(email, app_name, app_id, reviews, service)
+    return send_review_email(email, app_name, app_id, reviews, platform, app_icon)
