@@ -1,12 +1,10 @@
 <!DOCTYPE html>
-{% load static %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
         *{
             box-sizing: border-box;
@@ -38,6 +36,7 @@
 
         .container .app-name {
             text-align: center;
+            margin-bottom: 0.5rem;
             background-color: white;
             color: cornflowerblue;
         }
@@ -46,24 +45,18 @@
         .container .brand .brand-name {
             color: tomato;
             margin-bottom: 1rem;
+            font-size: 1.8rem;
         }
 
         .container .brand .brand-description {
             color: gray;
+            font-size: 1.1rem;
         }
         .container .apps div{
             background-color: white;
         }
-
-        .container .apps .title {
-            padding: 1rem 0;
-            text-align: center;
-            font-size: small;
-            color: rgb(5, 102, 146);
-        }
-
         .container .apps .reviews {
-            padding: 2rem;
+            padding: 1rem;
         }
 
         .container .apps .reviews .header{
@@ -72,14 +65,14 @@
         }
 
         .container .apps .reviews .body{
-            margin-top: 1rem;
+            /*margin-top: 1rem;*/
             border-bottom: 1px solid rgb(214, 213, 213);
         }
 
         .container .apps .reviews .body .body-title {
             color: rgb(14, 196, 202);
             font-size: 1.3rem;
-            margin-bottom: 1rem;
+            /*margin-bottom: rem;*/
         }
 
         .container .apps .reviews .body .content {
@@ -88,9 +81,10 @@
         }
           .container .apps .reviews .body  .date {
             margin-bottom: 2rem;
+              font-size: .7rem;
         }
         .container .apps .reviews .body .user-name {
-            font-size: 0.9rem;
+            font-size: 1rem;
             color: gray;
             margin: 0.5rem 0;
         }
@@ -102,14 +96,6 @@
             border: none;
         }
 
-        .ratings {
-            color: orange;
-           font-size: 1.3rem;
-        }
-
-        .checked {
-            color: orange;
-        }
 
         @media screen and (max-width:600px){
             .container{
@@ -122,12 +108,11 @@
     <div class="container">
         <div class="brand">
             <h1 class="brand-name">Alertific</h1>
-            <p class="brand-description">{{app_name}} has {{total_reviews}} of {{platform}} new reviews</p>
+            <p class="brand-description">Your app has {{total_reviews}} new {{platform}} reviews</p>
         </div>
         <div class="app-name">
             <img src={{ app_icon }} height="50px" width="50px">
             <h1 class="name">{{ app_name }}</h1>
-            <p style="color: gray; font-size: 14px">{{platform}}</p>
         </div>
         <div class="google-play apps">
              {% for review in reviews %}
@@ -145,8 +130,8 @@
                         <p class="content">
                            {{ review.content }}
                         </p>
-                        <p class="user-name">By: <span>{{ review.userName }}</span></p>
-                        <p class="date content">Posted on: {{ review.at }}</p>
+                        <p class="user-name">by <span>{{ review.userName }}</span></p>
+                        <p class="date content">{{ review.at }} | v<span>{{review.version}} | United Kingdom </span></p>
                     </div>
 
                 </div>

@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 from pathlib import Path
 import os
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -91,7 +92,7 @@ WSGI_APPLICATION = 'appscraper.wsgi.application'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 DATABASES = {
-     'default': {
+    'default': {
 
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
 
@@ -153,20 +154,20 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # CRISPY FORMS
 CRISPY_ALLOWED_TEMPLATE_PACKS = "tailwind"
-
 CRISPY_TEMPLATE_PACK = "tailwind"
 
-DEFAULT_COUNTRY = 'gb' # To extract reviews for particular country
+DEFAULT_COUNTRY = 'gb'  # To extract reviews for particular country
 
 AUTH_USER_MODEL = 'users.User'
-#https://itunes.apple.com/rss/customerreviews/page=1/id=1001501844/sortby=mostrecent/json?cc=gb
+
 # EMAIL CONFIGURATIONS
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'loharvikas76@gmail.com'
-EMAIL_HOST_PASSWORD = 'ixdjbysrfwxwjnej'
+EMAIL_HOST_USER = 'alerts@alertific.com'
+EMAIL_HOST_PASSWORD = 'Gmmatthew1991!'
+DEFAULT_FORM_EMAIL = 'alerts@alertific.com'
+SERVER_EMAIL = 'alerts@alertific.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-DEFAULT_FORM_EMAIL = 'loharvikas76@gmail.com'
 
 # CELERY CONFIGURATIONS
 CELERY_BROKER_URL = 'redis://localhost:6379'
@@ -182,6 +183,7 @@ CELERY_BEAT_SCHEDULE = {
     }
 }
 
+# CORS CONFIGURATIONS
 CORS_ORIGIN_WHITELIST = [
-     'http://localhost:3000'
+    'http://localhost:3000'
 ]

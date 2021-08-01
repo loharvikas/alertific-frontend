@@ -1,36 +1,58 @@
-import {React, useState, } from 'react';
+import {React, useState, useEffect } from 'react';
 import {withRouter} from 'react-router-dom';
 import axios from 'axios';
 import Result from './Result';
-import { trackPromise } from 'react-promise-tracker'
 import './Search.css'
-import {usePromiseTracker} from 'react-promise-tracker';
-import {Loader} from 'react-loader-spinner'
-import Spinner from 'react-bootstrap/Spinner'
 
 
 const Search = (props) => {
     const [appList, setAppList] = useState("");
-    const { promiseInProgress } = usePromiseTracker();
+    const [searchTerm, setSearchTerm] = useState("");
+    const [isSearching, setIsSearching] = useState(false);
     const platform = props.match.params.platform;
-    // const {platform} = location.state;
-    console.log('props:', props.match.params.platform)
+    const debouncedSearchTerm = useDebounce(searchTerm, 500);
 
-    // function sleep(ms) {
-    //     return new Promise(resolve => setTimeout(resolve, ms));
-    //   }
+    useEffect(
+        () => {
+          if (debouncedSearchTerm) {
+            setIsSearching(true);
+            fetchApps(debouncedSearchTerm).then((results) => {
+              setIsSearching(false);
+              setAppList(results);
+            });
+          } else {
+            setAppList([]);
+            setIsSearching(false);
+          }
+        },
+        [debouncedSearchTerm] // Only call effect if debounced search term changes
+      );
 
-    async function fetchApps(app_name) {
-        if(app_name.length > 0) {
-            trackPromise(     
+    function fetchApps(appName) {
+        if(appName.length > 0) {
+            console.log({appName})
+            return (     
                 axios
-                    .get(`/${platform}/${app_name}/`)
-                    .then((res) => setAppList(res.data))
-                    .catch((err) => console.error(err))
+                    .get(`/api/${platform}/${appName}/`)
+                    .then((res) => res.data)
+                    .catch((err) => {
+                        console.error(err);
+                        return []
+                    })
             )
         }
-        setAppList('')
     }
+
+    // function onChange(event) {
+    //     if (timeout) {
+    //         clearTimeout(timeout);
+    //     }
+    //     console.log(appName)
+    //     setappName(event.target.value);
+    //     setTimeout(setTimeout(function () {
+    //         fetchApps(appName)
+    //     }), 5000)
+    // }
 
     return (
         <div className="container">
@@ -44,16 +66,37 @@ const Search = (props) => {
                         <input  id='app' 
                                 className="app-input" 
                                 placeholder="Enter your app name here..."
-                                onChange={e => fetchApps(e.target.value)}
+                                onChange={e => setSearchTerm(e.target.value)}
                                 >
                         </input>
+                        {isSearching && <div>Searching ...</div>}
                     </div>
                 </form>
             </div>
-            <Result app_list = {appList} platform={platform}/>
+            { !isSearching && <Result app_list = {appList} platform={platform}/> }
         </div>
     )
 }
 
+function useDebounce(value, delay) {
+    // State and setters for debounced value
+    const [debouncedValue, setDebouncedValue] = useState(value);
+    useEffect(
+      () => {
+        // Update debounced value after delay
+        const handler = setTimeout(() => {
+          setDebouncedValue(value);
+        }, delay);
+        // Cancel the timeout if value changes (also on delay change or unmount)
+        // This is how we prevent debounced value from updating if value is changed ...
+        // .. within the delay period. Timeout gets cleared and restarted.
+        return () => {
+          clearTimeout(handler);
+        };
+      },
+      [value, delay] // Only re-call effect if value or delay changes
+    );
+    return debouncedValue;
+  }
 
 export default withRouter(Search)

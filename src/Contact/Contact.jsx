@@ -1,11 +1,12 @@
 import {React, useState} from 'react'
 import axios from 'axios'
 import './Contact.css'
+import { getDefaultNormalizer } from '@testing-library/react'
 
 axios.defaults.xsrfCookieName = 'csrftoken'
 axios.defaults.xsrfHeaderName = 'X-CSRFToken'
 
-export default function ContactPage() {
+function ContactPage() {
     const [email, setEmail] = useState("");
     const [message, setMessage] = useState("");
     const [isSend, setIsSend] = useState(false);
@@ -63,3 +64,5 @@ export default function ContactPage() {
         </div>
     )
 }
+
+export default ContactPage

@@ -1,23 +1,31 @@
-from django.core.mail import EmailMessage, EmailMultiAlternatives
+from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
 from django.conf import settings
-from email.mime.image import MIMEImage
 
 
 def send_subscribed_email(email, app_id, platform):
+    """
+    Sends confirmation mail to new users.
+    :param email:
+    :param app_id:
+    :param platform:
+    :return:
+    """
     context = {
         'app_name': app_id,
-        'platform': platform
+        'platform': platform,
     }
 
     email_subject = "Thank you for subscribing to our service"
+    html_content = render_to_string("subscribe/email_message.html", context)
     email_body = render_to_string('subscribe/email_message.txt', context)
-    email = EmailMessage(
+    email = EmailMultiAlternatives(
         email_subject,
         email_body,
         settings.DEFAULT_FROM_EMAIL,
         [email, ]
     )
+    email.attach_alternative(html_content, 'text/html')
     return email.send(fail_silently=False)
 
 
@@ -41,9 +49,20 @@ def send_feedback_email(email, message):
 
 
 def send_review_email(email, app_name, app_id, reviews, platform, app_icon):
+    """
+
+    :param email: User's email.
+    :param app_name: App name of subscribed app.
+    :param app_id: Unique App Id
+    :param reviews: List of reviews.
+    :param platform: App store of Platform
+    :param app_icon:
+    :return:
+    """
     for review in reviews:
         active = []
-        for i in range(int(review['score'])):
+        for i in range(int(review['score'])): # Creates List for looping in django template and adding star image
+            # accordingly
             active.append('I')
         remaining = []
         value = 5 - int(review['score'])
@@ -57,28 +76,18 @@ def send_review_email(email, app_name, app_id, reviews, platform, app_icon):
         'app_name': app_name,
         'app_id': app_id,
         'reviews': reviews,
-        'platform': str(platform).capitalize(),
+        'platform': platform,
         'app_icon': app_icon,
         'total_reviews': len(reviews)
     }
-    email_subject = f"New Reviews for {app_name} app"
-    email_body = render_to_string('subscribe/review_email.txt', context)
-    html_content = render_to_string('subscribe/review_email.html', context)
+    email_subject = "Your app has new reviews"
+    html_content = render_to_string("subscribe/email_review.html", context)
+    email_body = render_to_string('subscribe/email_review.txt', context)
     email = EmailMultiAlternatives(
         email_subject,
         email_body,
         settings.DEFAULT_FROM_EMAIL,
         [email, ]
     )
-    print(email)
-    email.mixed_subtype = 'related'
     email.attach_alternative(html_content, 'text/html')
-    # filepath = 'subscribe/static/images/star_checked.png'
-    # image = 'star_checked.png'
-    # with open(filepath, 'rb') as f:
-    #     img = MIMEImage(f.read())
-    #     img.add_header('Content-ID', '<{name}>'.format(name=image))
-    #     img.add_header('Content-Disposition', 'inline', filename=image)
-    # email.attach(img)
-    email.send(fail_silently=False)
-    print("SEND")
+    return email.send(fail_silently=False)

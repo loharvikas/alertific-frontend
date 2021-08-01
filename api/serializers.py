@@ -4,6 +4,7 @@ from subscribe.tasks import send_subscribe_email_task, send_feedback_email_task
 
 
 class AppStoreSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = AppStore
         fields = ('app_id', 'app_name', 'developer_id', 'app_icon')
@@ -27,6 +28,10 @@ class SubscriberSerializer(serializers.ModelSerializer):
         }
 
     def create(self, validated_data):
+        """
+        :param validated_data:
+        :return: Subscriber Instance
+        """
         print("VALIDS:", validated_data)
         validated_data, app_created, platform = self.create_apps(validated_data)
         subscriber, sub_created, = Subscriber.objects.get_or_create(email=validated_data['email'])
@@ -38,12 +43,17 @@ class SubscriberSerializer(serializers.ModelSerializer):
             google_play_obj = validated_data['google_play']
             subscriber.google_play.add(google_play_obj)
             app_name = google_play_obj.app_name
-        if app_created or sub_created:
+        if app_created or sub_created: # checks if new object was created and sends email confirmation
             send_subscribe_email_task.delay(validated_data['email'], app_name, platform)
         subscriber.save()
         return subscriber
 
     def create_apps(self, validated_data):
+        """
+        Creates GooglePlay and Appstore Objects.
+        :param validated_data:
+        :return:
+        """
         google_play = validated_data.get('google_play')
         app_store = validated_data.get('app_store')
         platform = None

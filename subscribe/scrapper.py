@@ -6,18 +6,32 @@ from requests.exceptions import HTTPError
 
 
 def is_yesterday(timestamp):
-    today = datetime.combine(datetime.today(), time.min) + timedelta(hours=8)
+    """
+    :param timestamp:
+    :return: Checks if timestamp of reviews was posted between specific time
+    """
+    today = datetime.combine(datetime.today(), time.min) + timedelta(hours=9)
     yesterday = today - timedelta(days=1)
-    return yesterday <= timestamp < today
+    # return yesterday <= timestamp < today
+    return True
 
 
 def fetch_reviews_from_app_store(app_id):
+    """
+    :param app_id:  Unique App Id.
+    :return: Reviews from App Store
+    """
     reviews = fetch_appstore_reviews(str(app_id), settings.DEFAULT_COUNTRY, "1")
     print("APP_NAME:", app_id)
     return reviews
 
 
 def fetch_reviews_from_google_play(app_id):
+    """
+    Use google_play_scraper library to fetch most recent reviews from Google Play Store.
+    :param app_id: Unique App Id.
+    :return: List of reviews
+    """
     print("GOOGLE_PLAY:", app_id)
     print("COUNTRY:", settings.DEFAULT_COUNTRY)
     results, continution_token = reviews(
@@ -25,23 +39,27 @@ def fetch_reviews_from_google_play(app_id):
         lang="en",
         country=settings.DEFAULT_COUNTRY,
         sort=Sort.NEWEST,
-        count=30,
+        count=50,
     )
     result_by_date = []
     for result in results:
+        result['version'] = result.pop('reviewCreatedVersion')
         date_time = result['at']
-        date_time = datetime.strftime(date_time, '%Y-%m-%d')
-        date_time_obj = datetime.strptime(date_time, '%Y-%m-%d')
-        print("DATE_TIME:", date_time)
-        print("DATE_TIME:", date_time_obj)
-        if is_yesterday(date_time_obj):
-            # date_time = datetime.strftime(date_time, '%Y-%m-%d')
+        if is_yesterday(date_time):
+            date_time = datetime.strftime(date_time, '%Y-%m-%d')
             result['at'] = date_time
             result_by_date.append(result)
     return result_by_date
 
 
 def fetch_appstore_reviews(app_id, country, page):
+    """
+    Fetch reviews from Itunes RSS feeds.
+    :param app_id:  Unique App Id.
+    :param country:
+    :param page: Numbers of page to be fetched max. 10
+    :return: List of reviews
+    """
     url = 'https://itunes.apple.com/rss/customerreviews/page=' + page + '/id=' + app_id + '/sortby=mostrecent/json?cc=' + country
     print(url)
     try:
@@ -66,6 +84,7 @@ def fetch_appstore_reviews(app_id, country, page):
         comment['title'] = review['title']['label']
         comment['content'] = review['content']['label']
         comment['at'] = review['updated']['label'].split('T')[0]
+        comment['version'] = review['im:version']['label']
         reviews.append(comment)
 
     return reviews

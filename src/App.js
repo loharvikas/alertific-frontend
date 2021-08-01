@@ -6,6 +6,7 @@ import Search from './Search/Search'
 import subscribe from './Subscribe/Subscribe'
 import {BrowserRouter as Router, Route, Switch, Link} from 'react-router-dom'
 import Subscribe from './Subscribe/Subscribe';
+import Footer from './Footer/Footer'
 import ContactPage from './Contact/Contact'
 
 
@@ -30,6 +31,7 @@ function App() {
             <Platform></Platform>
           </Route>
         </Switch>
+        <Footer></Footer>
       </Router>
     </div>
   );

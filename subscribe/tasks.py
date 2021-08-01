@@ -8,12 +8,12 @@ from .email import send_feedback_email
 
 @shared_task
 def send_subscribe_email_task(email, app_id, platform):
-    logger.info("Sent email")
+    logger.info("Email Sent")
     return send_subscribed_email(email, app_id, platform)
 
 @shared_task
 def send_feedback_email_task(email, message):
-    logger.info("Sent email")
+    logger.info("Email sent")
     return send_feedback_email(email, message)
 
 
@@ -39,6 +39,11 @@ def scrap_app_store():
 
 @shared_task
 def scrap_app_reviews_for_app_store(id):
+    """
+       Scrap app reviews and send emails to subscribed users
+    :param id:
+    :return: None
+    """
     app = AppStore.objects.get(pk=id)
     result = fetch_reviews_from_app_store(app.app_id)
     subscriber_list = app.subscriber.all()
@@ -55,7 +60,11 @@ def scrap_app_reviews_for_app_store(id):
 
 @shared_task
 def scrap_app_reviews_for_google_play(id):
-    logger.info("Sent app instance for fetching reviews")
+    """
+    Scrap app reviews and send emails to subscribed users
+    :param id:
+    :return: None
+    """
     app = GooglePlay.objects.get(pk=id)
     result = fetch_reviews_from_google_play(app.app_id)
     subscriber_list = app.subscriber.all()

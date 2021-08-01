@@ -1,4 +1,5 @@
 import {React} from 'react';
+import {BrowserRouter as Router, Route, Switch, Link, withRouter} from 'react-router-dom'
 import './Footer.css'
 
 const Footer = () => {
@@ -6,10 +7,10 @@ const Footer = () => {
         <footer>
             <div className="content">
                 <ul>
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#">Contact Us</a></li>
-                    <li><a href="#">Terms of Use</a></li>
-                    <li><a href="#">Privacy Policy</a></li>
+                    <Link to='/'><li>Home</li></Link>
+                    <li><Link to='/contact/'>Contact Us</Link></li>
+                    <li><Link >Terms of Use</Link></li>
+                    <li><Link >Privacy Policy</Link></li>
                 </ul>
             </div>
 

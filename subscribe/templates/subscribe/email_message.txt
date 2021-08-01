@@ -1,8 +1,5 @@
 Thank you for subscribing to our service.
 
-You will get daily email alerts for following app
-
-1. App name: {{app_name|safe}}
-2. Developer: {{developer|safe}}
+You will get daily email alerts for {{app_name|safe}}
 
 Thank you!
