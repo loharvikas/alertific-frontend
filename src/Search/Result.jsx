@@ -3,7 +3,7 @@ import {BrowserRouter as Router, Route, Switch, Link} from 'react-router-dom'
 import Platform from '../Platform/Platform';
 
 const Result = (props) => {
-    const {app_list, platform} = props
+    const {app_list, platform, country} = props
     if(app_list.length > 0) {
         return (
             <div className="result-container">
@@ -18,6 +18,7 @@ const Result = (props) => {
                             app_id={app.app_id}
                             developerId={app.developer_id}
                             platform={platform}
+                            country={country}
                         />
                     ))
                 }
@@ -30,7 +31,7 @@ const Result = (props) => {
 }
 
 const App = (props) => {
-    const {appName, developerName, appImage, app_id, developerId, platform} = props;
+    const {appName, developerName, appImage, app_id, developerId, platform, country} = props;
     console.log(platform)
     return (
         <div className="result">
@@ -52,8 +53,9 @@ const App = (props) => {
                                             app_name:appName,
                                             app_id:app_id,
                                             developer_id:developerId,
-                                            app_icon:appImage
+                                            app_icon:appImage,
                                         },
+                                        country:country,
                                         services:platform,
                                       
                                     },

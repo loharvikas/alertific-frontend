@@ -43,7 +43,7 @@ class GooglePlayAppListView(View):
         :return List of apps in JSON format.
     """
 
-    def get(self, request, app_name, *args, **kwargs):
+    def get(self, request, app_name, country_code,*args, **kwargs):
         """
         :param request:
         :param app_name: Use to search Google Play Store
@@ -53,7 +53,8 @@ class GooglePlayAppListView(View):
         """
         print("APP_NAME:", app_name)
         print(request)
-        data = play_scraper.search(app_name, page=1, gl=settings.DEFAULT_COUNTRY)
+        country_code = str(country_code).lower()
+        data = play_scraper.search(app_name, page=1, gl=country_code)
         return JsonResponse(data, safe=False)
 
 
@@ -62,7 +63,7 @@ class AppStoreAppListView(View):
         Uses itunes_app_scraper library to search App  store
         API Endpoint: api/apple/app_name/
     """
-    def get(self, request, app_name, *args, **kwargs):
+    def get(self, request, app_name,country_code, *args, **kwargs):
         """
         :param request:
         :param app_name: Use to search App store
@@ -71,12 +72,12 @@ class AppStoreAppListView(View):
         :return: List of apps in JSON format.
         """
         scraper = AppStoreScraper()
-        results = scraper.get_app_ids_for_query(app_name, country=settings.DEFAULT_COUNTRY)
+        results = scraper.get_app_ids_for_query(app_name, country=country_code)
         if len(results):
             results = results[:8]
         data = []
         for i in results:
-            detail = scraper.get_app_details(app_id=i, country=settings.DEFAULT_COUNTRY)
+            detail = scraper.get_app_details(app_id=i, country=country_code)
             detail['title'] = detail.pop('trackName')
             detail['developer'] = detail.pop('artistName')
             detail['developer_id'] = detail.pop('artistId')

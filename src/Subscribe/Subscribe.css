@@ -14,7 +14,7 @@
 .form-body {
     align-items: center;
     width: 50%;
-    margin: 3rem auto;
+    margin: 2rem auto;
     /* border: 1px solid gray; */
 }
 
@@ -26,12 +26,27 @@
 
 .form-body input {
     width: 100%;
-    font-size: 1.3rem;
-    margin-top: 0.5rem;
-    
-    padding: 0.5rem 1rem;
+    font-size: 1.1rem;
+    margin: 0.5rem 0;
+    padding: 0.6rem 1rem;
     border-radius: var(--border-radius);
     border: 1px solid gray;
+}
+
+.form-body .countries button{
+    width: 100%;
+    font-size: 1.3rem;
+    margin-top: 0.5rem;
+    border-radius: var(--border-radius);
+    border: 1px solid gray;
+}
+
+.form-body .countries button span {
+    color: var(--txt-secondary);
+}
+
+.form-body .countries button span span {
+    color: black;
 }
 
 .form-body .input-info {

@@ -47,7 +47,8 @@ INSTALLED_APPS = [
     "crispy_tailwind",
     'django_celery_beat',
     'rest_framework',
-    'corsheaders'
+    'corsheaders',
+    'django_countries'
 ]
 
 MIDDLEWARE = [

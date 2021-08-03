@@ -1,4 +1,4 @@
-Thank you for subscribing to our service.
+Your alerts of new app reviews are set up
 
 You will get daily email alerts for {{app_name|safe}}
 

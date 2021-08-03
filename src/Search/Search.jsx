@@ -1,14 +1,25 @@
+
 import {React, useState, useEffect } from 'react';
 import {withRouter} from 'react-router-dom';
 import axios from 'axios';
 import Result from './Result';
-import './Search.css'
+import './Search.css';
+import ReactFlagsSelect from 'react-flags-select';
+
+const Loader = () => {
+  return (
+      <div class="loader">
+          <div class="loader__element"></div>
+      </div>
+  )
+}
 
 
 const Search = (props) => {
     const [appList, setAppList] = useState("");
     const [searchTerm, setSearchTerm] = useState("");
     const [isSearching, setIsSearching] = useState(false);
+    const [country, setCountry] = useState('');
     const platform = props.match.params.platform;
     const debouncedSearchTerm = useDebounce(searchTerm, 500);
 
@@ -33,7 +44,7 @@ const Search = (props) => {
             console.log({appName})
             return (     
                 axios
-                    .get(`/api/${platform}/${appName}/`)
+                    .get(`/api/${platform}/${appName}/${country}/`)
                     .then((res) => res.data)
                     .catch((err) => {
                         console.error(err);
@@ -43,17 +54,6 @@ const Search = (props) => {
         }
     }
 
-    // function onChange(event) {
-    //     if (timeout) {
-    //         clearTimeout(timeout);
-    //     }
-    //     console.log(appName)
-    //     setappName(event.target.value);
-    //     setTimeout(setTimeout(function () {
-    //         fetchApps(appName)
-    //     }), 5000)
-    // }
-
     return (
         <div className="container">
 
@@ -61,19 +61,27 @@ const Search = (props) => {
                 <h1>Search for an app</h1>
             </div>
             <div className="form-container">
+                {isSearching && <Loader />}
                 <form classNam="form">
+                    <div className="form-control" id="countries">
+                      <p className="input-info">Which country/region would you like to track?</p>
+                      <ReactFlagsSelect
+                              selected={country}
+                              onSelect={code => setCountry(code)}
+                          />
+                    </div>
                     <div className="form-control">
                         <input  id='app' 
                                 className="app-input" 
                                 placeholder="Enter your app name here..."
                                 onChange={e => setSearchTerm(e.target.value)}
+                                disabled={ country ? false : true  }
                                 >
                         </input>
-                        {isSearching && <div>Searching ...</div>}
                     </div>
                 </form>
             </div>
-            { !isSearching && <Result app_list = {appList} platform={platform}/> }
+            { !isSearching && <Result app_list = {appList} platform={platform} country={country}/> }
         </div>
     )
 }

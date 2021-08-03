@@ -1,7 +1,8 @@
 import axios from 'axios';
 import {React, useState, useEffect} from 'react'
 import {useLocation, withRouter,} from 'react-router-dom';
-import {BrowserRouter as Router, Route, Switch, Link, Redirect} from 'react-router-dom'
+import {BrowserRouter as Router, Route, Switch, Link, Redirect} from 'react-router-dom';
+import ReactFlagsSelect from 'react-flags-select';
 import './Subscribe.css'
 
 axios.defaults.xsrfCookieName = 'csrftoken'
@@ -13,14 +14,18 @@ const Subscribe = (props) => {
     const [isSubscribe, setIsSubscribe] = useState(false);
     const data = location.state.data
     const platform = location.state.services
+    const country = location.state.country
+    console.log(country)
     console.log({platform})
     function subscribePost() {
         console.log(platform)
         const payload = {
             email: email,
-            
             google_play:platform === 'google'? [data] : undefined,
             app_store:platform === 'apple' ? [data] : undefined,
+            country: [{
+                'country_code': country,
+            }]
         }
         console.log({payload})
         axios

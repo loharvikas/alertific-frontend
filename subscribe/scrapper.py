@@ -16,28 +16,30 @@ def is_yesterday(timestamp):
     return True
 
 
-def fetch_reviews_from_app_store(app_id):
+def fetch_reviews_from_app_store(app_id, country_code):
     """
     :param app_id:  Unique App Id.
+    :param country_code: ISO Country Code.
     :return: Reviews from App Store
     """
-    reviews = fetch_appstore_reviews(str(app_id), settings.DEFAULT_COUNTRY, "1")
+    reviews = fetch_appstore_reviews(str(app_id), country_code, "1")
     print("APP_NAME:", app_id)
     return reviews
 
 
-def fetch_reviews_from_google_play(app_id):
+def fetch_reviews_from_google_play(app_id, country_code):
     """
     Use google_play_scraper library to fetch most recent reviews from Google Play Store.
     :param app_id: Unique App Id.
+    :param country_code: ISO Country Code
     :return: List of reviews
     """
     print("GOOGLE_PLAY:", app_id)
-    print("COUNTRY:", settings.DEFAULT_COUNTRY)
+    print("COUNTRY:", country_code)
     results, continution_token = reviews(
         app_id,
         lang="en",
-        country=settings.DEFAULT_COUNTRY,
+        country=country_code,
         sort=Sort.NEWEST,
         count=50,
     )

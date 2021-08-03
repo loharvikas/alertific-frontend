@@ -14,7 +14,7 @@
 
         body{
             font-family: sans-serif;
-            background-color: rgb(243, 236, 236);
+            background-color: white;
             line-height: 1.4rem;
         }
 
@@ -30,7 +30,7 @@
 
         .container .brand {
             text-align: center;
-            padding: 2rem;
+            padding: 1.3rem;
             background-color: white;
         }
 
@@ -39,6 +39,10 @@
             margin-bottom: 0.5rem;
             background-color: white;
             color: cornflowerblue;
+        }
+
+        .container .app-name h1{
+            margin-top: 0.5rem;
         }
 
 
@@ -96,10 +100,27 @@
             border: none;
         }
 
+        @media screen and (max-width:780px) {
+            .container{
+               width: 80%;
+            }
+            .container .app-name .name  {
+                font-size: 1.2rem;
+            }
+        }
+
 
         @media screen and (max-width:600px){
             .container{
                width: 100%;
+            }
+            .container .app-name .name  {
+                font-size: 1.1rem;
+                padding: 0 0.3rem;
+            }
+            .container .brand .brand-description {
+                font-size: 0.9rem;
+
             }
         }
     </style>
@@ -131,7 +152,7 @@
                            {{ review.content }}
                         </p>
                         <p class="user-name">by <span>{{ review.userName }}</span></p>
-                        <p class="date content">{{ review.at }} | v<span>{{review.version}} | United Kingdom </span></p>
+                        <p class="date content">{{ review.at }} | v<span>{{review.version}} | {{country}} </span></p>
                     </div>
 
                 </div>

@@ -1,10 +1,17 @@
 from rest_framework import serializers
-from subscribe.models import Subscriber, AppStore, GooglePlay, Feedback
+from subscribe.models import Subscriber, AppStore, GooglePlay, Feedback, Country
 from subscribe.tasks import send_subscribe_email_task, send_feedback_email_task
+from rest_framework import status
+from rest_framework.response import Response
+import pycountry
+
+
+def convert_iso_to_country(iso_code):
+    country = pycountry.countries.get(alpha_2=iso_code)
+    return country.name
 
 
 class AppStoreSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = AppStore
         fields = ('app_id', 'app_name', 'developer_id', 'app_icon')
@@ -16,9 +23,22 @@ class GooglePlaySerializer(serializers.ModelSerializer):
         fields = ('app_id', 'app_name', 'developer_id', 'app_icon')
 
 
+class CountrySerializer(serializers.ModelSerializer):
+    app_store = AppStoreSerializer(required=False, many=True)
+    google_play = GooglePlaySerializer(required=False, many=True)
+
+    class Meta:
+        model = Country
+        fields = '__all__'
+        extra_kwargs = {
+            'country_code': {'validators': []},
+        }
+
+
 class SubscriberSerializer(serializers.ModelSerializer):
     app_store = AppStoreSerializer(required=False, many=True)
     google_play = GooglePlaySerializer(required=False, many=True)
+    country = CountrySerializer(required=False, many=True)
 
     class Meta:
         model = Subscriber
@@ -26,6 +46,7 @@ class SubscriberSerializer(serializers.ModelSerializer):
         extra_kwargs = {
             'email': {'validators': []},
         }
+        depth = 1
 
     def create(self, validated_data):
         """
@@ -33,7 +54,9 @@ class SubscriberSerializer(serializers.ModelSerializer):
         :return: Subscriber Instance
         """
         print("VALIDS:", validated_data)
+        country_created = False  # To check if existing user adds new country
         validated_data, app_created, platform = self.create_apps(validated_data)
+        validated_data, country_created = self.create_country(validated_data, app_created)
         subscriber, sub_created, = Subscriber.objects.get_or_create(email=validated_data['email'])
         if 'app_store' in validated_data:
             app_store_obj = validated_data['app_store']
@@ -43,10 +66,43 @@ class SubscriberSerializer(serializers.ModelSerializer):
             google_play_obj = validated_data['google_play']
             subscriber.google_play.add(google_play_obj)
             app_name = google_play_obj.app_name
-        if app_created or sub_created: # checks if new object was created and sends email confirmation
-            send_subscribe_email_task.delay(validated_data['email'], app_name, platform)
+        country_obj = validated_data["country"]
+        print(country_obj)
+        print("COUNTRY_CREATED:", country_created)
+        print("APP:", app_created)
+        subscriber.country.add(country_obj)
+        if app_created or sub_created or country_created:  # checks if new object was created and sends email confirmation
+            send_subscribe_email_task.delay(validated_data['email'], app_name, platform, country_obj.country_name)
+
         subscriber.save()
         return subscriber
+
+    def create_country(self, validated_data, app_created):
+        """
+        :param validated_data:
+        :return:
+        """
+        country = validated_data.get('country')
+        google_play = validated_data.get('google_play')
+        app_store = validated_data.get('app_store')
+        if country:
+            country = country[0]
+            country_code = country.pop("country_code")
+            country_name = convert_iso_to_country(country_code)
+            print("COUNTRY_NAME:", country_name)
+            country, created = Country.objects.get_or_create(country_code=country_code)
+            if app_store:
+                app_store_obj = validated_data['app_store']
+                print("APPSTORE:", app_store_obj)
+                country.app_store.add(app_store_obj)
+            if google_play:
+                google_play_obj = validated_data['google_play']
+                print("GOOGLE:", google_play_obj)
+                country.google_play.add(google_play_obj)
+            country.country_name = country_name
+            country.save()
+        validated_data["country"] = country
+        return validated_data, created
 
     def create_apps(self, validated_data):
         """
@@ -70,7 +126,7 @@ class SubscriberSerializer(serializers.ModelSerializer):
                 app_icon=app_icon
             )
             validated_data['google_play'] = google_play_obj
-            platform = 'google'
+            platform = 'Google Play'
 
         if app_store:
             app_store = app_store[0]
@@ -85,7 +141,7 @@ class SubscriberSerializer(serializers.ModelSerializer):
                 app_icon=app_icon
             )
             validated_data['app_store'] = app_store_obj
-            platform = 'apple'
+            platform = 'the App Store'
 
         return validated_data, created, platform
 

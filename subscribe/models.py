@@ -1,4 +1,5 @@
 from django.db import models
+from django_countries.fields import CountryField
 
 
 class GooglePlay(models.Model):
@@ -22,12 +23,23 @@ class AppStore(models.Model):
 
 
 class Subscriber(models.Model):
-    email = models.EmailField(unique=True)
+    email = models.EmailField(unique=False)
     google_play = models.ManyToManyField(GooglePlay, related_name='subscriber')
     app_store = models.ManyToManyField(AppStore, related_name='subscriber')
+    country = models.ManyToManyField('Country', related_name="subscriber")
 
     def __str__(self):
         return self.email
+
+
+class Country(models.Model):
+    country_code = models.CharField(max_length=2, unique=True)
+    country_name = models.CharField(max_length=50, null=True, blank=True)
+    google_play = models.ManyToManyField(GooglePlay, related_name='countries')
+    app_store = models.ManyToManyField(AppStore, related_name='countries')
+
+    def __str__(self):
+        return self.country_code
 
 
 class Feedback(models.Model):

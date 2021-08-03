@@ -3,20 +3,22 @@ from django.template.loader import render_to_string
 from django.conf import settings
 
 
-def send_subscribed_email(email, app_id, platform):
+def send_subscribed_email(email, app_id, platform, country):
     """
     Sends confirmation mail to new users.
     :param email:
     :param app_id:
     :param platform:
+    :param country:
     :return:
     """
     context = {
         'app_name': app_id,
         'platform': platform,
+        'country': country
     }
 
-    email_subject = "Thank you for subscribing to our service"
+    email_subject = "Your daily alert of new app reviews is live"
     html_content = render_to_string("subscribe/email_message.html", context)
     email_body = render_to_string('subscribe/email_message.txt', context)
     email = EmailMultiAlternatives(
@@ -48,7 +50,7 @@ def send_feedback_email(email, message):
     print("SEND")
 
 
-def send_review_email(email, app_name, app_id, reviews, platform, app_icon):
+def send_review_email(email, app_name, app_id, reviews, platform, app_icon, country):
     """
 
     :param email: User's email.
@@ -57,6 +59,7 @@ def send_review_email(email, app_name, app_id, reviews, platform, app_icon):
     :param reviews: List of reviews.
     :param platform: App store of Platform
     :param app_icon:
+    :param country:
     :return:
     """
     for review in reviews:
@@ -78,7 +81,8 @@ def send_review_email(email, app_name, app_id, reviews, platform, app_icon):
         'reviews': reviews,
         'platform': platform,
         'app_icon': app_icon,
-        'total_reviews': len(reviews)
+        'total_reviews': "50+" if len(reviews) >= 50 else len(reviews),
+        'country': country
     }
     email_subject = "Your app has new reviews"
     html_content = render_to_string("subscribe/email_review.html", context)
