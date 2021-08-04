@@ -15,10 +15,7 @@ const Subscribe = (props) => {
     const data = location.state.data
     const platform = location.state.services
     const country = location.state.country
-    console.log(country)
-    console.log({platform})
     function subscribePost() {
-        console.log(platform)
         const payload = {
             email: email,
             google_play:platform === 'google'? [data] : undefined,

@@ -59,11 +59,6 @@
     fill: white;
 }
 
-@media screen and (max-width:900px) {
-    .platform .platform-container {
-        width:90%;
-    }
-}
 
 @media screen and (max-width:570px) {
     .platform .platform-container {
