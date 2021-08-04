@@ -7,15 +7,15 @@ const Base = () => {
         <div className="base">
             <header id="header">
                 <nav id="nav-bar">
-                    <Link to='/'>
-                        <div className="brandName" id="nav-item">
-                            <h1>Alertific</h1>
-                        </div>
-                    </Link>
+                    <div className="brandName" id="nav-item">
+                        <Link to='/'>                
+                                <h1>Alertific</h1>
+                        </Link>
+                    </div>
                     <div id="nav-item" className="contact-us">
-                                <Link to="/contact/" className="btn">
-                                    Contact Us
-                                </Link>
+                        <Link to="/contact/" className="btn">
+                            Contact Us
+                        </Link>
                     </div>
                 </nav>
             </header>

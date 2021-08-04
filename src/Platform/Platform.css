@@ -59,6 +59,12 @@
     fill: white;
 }
 
+@media screen and (max-width:900px) {
+    .platform .platform-container {
+        width:90%;
+    }
+}
+
 @media screen and (max-width:570px) {
     .platform .platform-container {
         display: block;
@@ -68,5 +74,9 @@
         width: 100%;
         margin: 0;
         margin: 2rem 0;
+    }
+    .platform .title {
+        text-align: center;
+        font-size: 1rem;
     }
 }

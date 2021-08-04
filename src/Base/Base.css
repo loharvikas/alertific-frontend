@@ -67,6 +67,18 @@
     color: gray;
 }
 
+@media screen and (max-width: 1000px)  {
+    .base .content {
+        margin-top: 3rem;
+    }
+}
+
+@media screen and (max-width: 700px) {
+    .base .content {
+        margin-top: 1rem;
+    }
+}
+
 
 
 @media screen and (max-width: 600px) {
@@ -74,6 +86,9 @@
         font-size: 1.3rem;
         color: var(--txt-primary);
         text-decoration: bold;
+    }
+    .base #header{
+        padding: 1rem;
     }
 
     .base #header #nav-bar  .contact-us {
@@ -86,5 +101,8 @@
         margin-top: 1rem;
     }
     
+    .base .content header h1 {
+        font-size: 2.5rem;
+    }
     
 }

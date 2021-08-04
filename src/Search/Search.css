@@ -122,46 +122,8 @@
     color: gray;
 }
 
-:root {
-    --main-color: #111;
-    --loader-color: #4CAF50;
-    --back-color: #A5D6A7;
-    --time: 3s;
-    --size: 3px;
-  }
-  
-  .loader {
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    align-content: center; 
-    justify-content: flex-start;  
-      z-index: 100000;
-  }
-  
-  .loader__element {
-      height: var(--size);
-      width: 100%;
-      background: var(--back-color);
-  
-  }
-  
-  .loader__element:before {
-      content: '';
-      display: block;
-      background-color: var(--loader-color);
-      height: var(--size);
-      width: 0;
-    animation: getWidth var(--time) ease-in infinite;
-  }
-  
-  @keyframes getWidth {
-      100% { width: 100%; }
-  }
 
-
-
-@media screen and (max-width:700px) {
+@media screen and (max-width:1000px) {
     .form-container {
         width: 80%;
     }
@@ -171,14 +133,24 @@
     }
 }
 
-@media screen and (max-width:500px) {
+@media screen and (max-width:800px) {
     .form-container {
-        width: 90%;
+        width: 100%;
+    }
+    .result .content .title{
+        font-size: 1.2rem;
+    }
+    .result-container {
+        width: 100%;
+    }
+}
+
+@media screen and (max-width:500px) {
+
+    .result .content .title {
+        font-size: 1rem;
     }
 
-    .result-container {
-        width: 90%;
-    }
     .header {
         font-size: 1.3rem;
 
@@ -187,11 +159,9 @@
 }
 
 @media screen and (max-width:375px) {
-    .form-container {
-        width: 100%;
-    }
 
-    .result-container {
-        width: 100%;
+    .header {
+        font-size: 1rem;
+
     }
 }
