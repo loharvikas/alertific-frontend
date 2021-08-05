@@ -43,12 +43,9 @@ INSTALLED_APPS = [
     'api.apps.ApiConfig',
 
     # Third Party Apps
-    'crispy_forms',
-    "crispy_tailwind",
     'django_celery_beat',
     'rest_framework',
     'corsheaders',
-    'django_countries'
 ]
 
 MIDDLEWARE = [
