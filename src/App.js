@@ -8,6 +8,8 @@ import {BrowserRouter as Router, Route, Switch, Link} from 'react-router-dom'
 import Subscribe from './Subscribe/Subscribe';
 import Footer from './Footer/Footer'
 import ContactPage from './Contact/Contact'
+import Privacy from './Privacy/Privacy'
+import Terms from './Terms/Terms'
 
 
 function App() {
@@ -26,6 +28,12 @@ function App() {
           </Route>
           <Route exact path="/contact/">
             <ContactPage></ContactPage>
+          </Route>
+          <Route exact path="/privacy-policy/">
+            <Privacy></Privacy>
+          </Route>
+          <Route exact path="/terms-of-user/">
+            <Terms></Terms>
           </Route>
           <Route exact path="/">
             <Platform></Platform>

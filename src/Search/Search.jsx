@@ -8,9 +8,7 @@ import ReactFlagsSelect from 'react-flags-select';
 
 const Loader = () => {
   return (
-      <div class="loader">
-          <div class="loader__element"></div>
-      </div>
+        <div class="loader__element"></div>
   )
 }
 
@@ -22,7 +20,6 @@ const Search = (props) => {
     const [country, setCountry] = useState('');
     const platform = props.match.params.platform;
     const debouncedSearchTerm = useDebounce(searchTerm, 500);
-
     useEffect(
         () => {
           if (debouncedSearchTerm) {
@@ -36,12 +33,12 @@ const Search = (props) => {
             setIsSearching(false);
           }
         },
-        [debouncedSearchTerm] // Only call effect if debounced search term changes
+        [debouncedSearchTerm, country]
       );
 
     function fetchApps(appName) {
         if(appName.length > 0) {
-            console.log({appName})
+          console.log(country)
             return (     
                 axios
                     .get(`/api/${platform}/${appName}/${country}/`)
@@ -56,18 +53,23 @@ const Search = (props) => {
 
     return (
         <div className="container">
-
             <div className="header">
                 <h1>Search for an app</h1>
             </div>
+
             <div className="form-container">
-                {isSearching && <Loader />}
+                <div class="loader">
+                  {isSearching && <Loader />}
+                </div>
                 <form classNam="form">
                     <div className="form-control" id="countries">
                       <p className="input-info">Which country/region would you like to track?</p>
                       <ReactFlagsSelect
                               selected={country}
                               onSelect={code => setCountry(code)}
+                              placeholder="Select a country or region"
+                              searchable
+                              searchPlaceholder="Search country or region"
                           />
                     </div>
                     <div className="form-control">

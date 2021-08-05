@@ -16,7 +16,8 @@
   --txt-secondary: #696767;
   --border-radius: 5px;
   --success: 	#42ba96;
-  --backgroun-success: rgba(66, 186, 150, 0.09);
+  --background-success: rgba(66, 186, 150, 0.09);
+  --background-danger: rgb(217, 83, 79, 0.09);
   --danger: #df4759;
   --info:  	#467fd0;
 }  
@@ -52,7 +53,13 @@ a {
 
 .success {
   border: 1.5px solid var(--success);
-  background-color: var(--backgroun-success);
+  background-color: var(--background-success);
+  border-radius: var(--border-radius);
+}
+
+.danger {
+  border: 1.5px solid var(--danger);
+  background-color: var(--background-danger);
   border-radius: var(--border-radius);
 }
 
@@ -67,6 +74,9 @@ a {
   width: 100%;
 } */
 
+input{
+  font-style: italic;
+}
 input:disabled {
   background-color: rgb(248, 248, 248);
 }
@@ -81,6 +91,7 @@ input:disabled {
 
 .loader {
   overflow: hidden;
+  height: var(--size);
   display: flex;
   align-items: center;
   align-content: center; 
@@ -89,7 +100,6 @@ input:disabled {
 }
 
 .loader__element {
-    height: var(--size);
     width: 100%;
     background: var(--back-color);
 

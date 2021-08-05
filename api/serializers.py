@@ -56,26 +56,30 @@ class SubscriberSerializer(serializers.ModelSerializer):
         print("VALIDS:", validated_data)
         country_created = False  # To check if existing user adds new country
         validated_data, app_created, platform = self.create_apps(validated_data)
-        validated_data, country_created = self.create_country(validated_data, app_created)
+        validated_data, send_mail = self.create_country(validated_data, app_created)
         subscriber, sub_created, = Subscriber.objects.get_or_create(email=validated_data['email'])
         if 'app_store' in validated_data:
             app_store_obj = validated_data['app_store']
-            subscriber.app_store.add(app_store_obj)
-            app_name = app_store_obj.app_name
+            if app_store_obj not in subscriber.app_store.all():
+                send_mail = True
+                subscriber.app_store.add(app_store_obj)
+                app_name = app_store_obj.app_name
         if 'google_play' in validated_data:
             google_play_obj = validated_data['google_play']
-            subscriber.google_play.add(google_play_obj)
-            app_name = google_play_obj.app_name
+            if google_play_obj not in subscriber.google_play.all():
+                send_mail = True
+                subscriber.google_play.add(google_play_obj)
+                app_name = google_play_obj.app_name
         country_obj = validated_data["country"]
         print(country_obj)
         print("COUNTRY_CREATED:", country_created)
         print("APP:", app_created)
         subscriber.country.add(country_obj)
-        if app_created or sub_created or country_created:  # checks if new object was created and sends email confirmation
+        if send_mail:  # checks if new object was created and sends email confirmation
             send_subscribe_email_task.delay(validated_data['email'], app_name, platform, country_obj.country_name)
-
-        subscriber.save()
-        return subscriber
+            subscriber.save()
+            return subscriber
+        raise serializers.ValidationError()
 
     def create_country(self, validated_data, app_created):
         """
@@ -85,6 +89,7 @@ class SubscriberSerializer(serializers.ModelSerializer):
         country = validated_data.get('country')
         google_play = validated_data.get('google_play')
         app_store = validated_data.get('app_store')
+        send_mail = False
         if country:
             country = country[0]
             country_code = country.pop("country_code")
@@ -94,15 +99,19 @@ class SubscriberSerializer(serializers.ModelSerializer):
             if app_store:
                 app_store_obj = validated_data['app_store']
                 print("APPSTORE:", app_store_obj)
-                country.app_store.add(app_store_obj)
+                if app_store_obj not in country.app_store.all():
+                    send_mail = True
+                    country.app_store.add(app_store_obj)
             if google_play:
                 google_play_obj = validated_data['google_play']
                 print("GOOGLE:", google_play_obj)
-                country.google_play.add(google_play_obj)
+                if google_play_obj not in country.google_play.all():
+                    send_mail = True
+                    country.google_play.add(google_play_obj)
             country.country_name = country_name
             country.save()
         validated_data["country"] = country
-        return validated_data, created
+        return validated_data, send_mail
 
     def create_apps(self, validated_data):
         """

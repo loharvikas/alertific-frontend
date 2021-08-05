@@ -17,12 +17,17 @@
     width: 60%;
     margin: 0 auto;
     margin-top:2rem;
+    text-decoration: ;
 }
 
 .form-container .form {
     display: flex;
     flex-direction:column;
     justify-content: space-between;
+}
+
+.form-container #countries svg {
+    display: none;
 }
 .form-container #countries  button{
     width: 100%;
@@ -31,11 +36,12 @@
     margin-top: 0.5rem;
     border-radius: var(--border-radius);
     border: 1px solid gray;
+    font-style: italic;
 }
 
 .form-container #countries  button span {
     color: var(--txt-secondary);
-
+    padding: 0 0.1rem;
 }
 
 .form-container #countries  button span span {
@@ -44,7 +50,6 @@
 
 .form-container .input-info {
     color: var(--txt-secondary);
-    font-weight: bold;
 }
 
 .form-container input {
@@ -54,6 +59,7 @@
     font-size: 1.1rem;
     border-radius:5px ;
     border: 1px solid rgb(167, 166, 166);
+    font-style: italic;
 }
 
 .form-container input:placeholder {

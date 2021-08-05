@@ -22,16 +22,24 @@
     font-weight: bold;
 }
 
+/* .form-body .form-control input {
+    font-family:italic;
+} */
+
 .form-body .form-control .form-data #message {
     /* resize: none; */
     resize: vertical;
     height: 200px;
-    padding: 0.5rem;
+    padding: 1rem;
     font-size: 1.2rem;
     border:1px solid gray;
     border-radius: var(--border-radius);
 }
 
+.form-body .form-control .form-data textarea::placeholder {
+    font-style: italic;
+    font-family: sans-serif
+}
 .form-body .form-control .form-data textarea:focus {
     outline: none;
 }
