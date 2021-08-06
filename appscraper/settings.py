@@ -51,7 +51,7 @@ INSTALLED_APPS = [
     'django_celery_beat',
     'rest_framework',
     'corsheaders',
-    'whitenoise.runserver_nostatic'
+    'storages'
 ]
 
 MIDDLEWARE = [
@@ -62,7 +62,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 REST_FRAMEWORK = {
@@ -158,9 +157,17 @@ STATICFILES_DIR = [
     os.path.join(BASE_DIR, "build/static"),
 ]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+
+AWS_ACCESS_KEY_ID = "AKIASDE2HWTF7TZWG7YU"
+AWS_SECRET_ACCESS_KEY = "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"
+AWS_STORAGE_BUCKET_NAME = "django-app-reviews"
+
+AWS_S3_FILE_OVERWRITE = False
+AWS_DEFAULT_ACL = None
+
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
@@ -183,6 +190,8 @@ DEFAULT_FORM_EMAIL = 'alerts@alertific.com'
 SERVER_EMAIL = 'alerts@alertific.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
+
+
 
 # CELERY CONFIGURATIONS
 CELERY_BROKER_URL = 'redis://localhost:6379'
