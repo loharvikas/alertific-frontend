@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
+import psycopg2
+import dj_database_url
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -91,23 +93,26 @@ WSGI_APPLICATION = 'appscraper.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
+DATABASE_URL = os.environ['DATABASE_URL']
+conn = psycopg2.connect(DATABASE_URL, sslmode='require')
+DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
+# DATABASES = {
+#     'default': {
 
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
 
-        'NAME': 'app_reviews',
+#         'NAME': 'app_reviews',
 
-        'USER': 'vikas',
+#         'USER': 'vikas',
 
-        'PASSWORD': 'vikas123',
+#         'PASSWORD': 'vikas123',
 
-        'HOST': 'localhost',
+#         'HOST': 'localhost',
 
-        'PORT': '',
+#         'PORT': '',
 
-    }
-}
+#     }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
