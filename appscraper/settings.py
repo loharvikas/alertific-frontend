@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
+import psycopg2
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -25,7 +26,7 @@ SECRET_KEY = 'django-insecure-fr1vfpojn&=^75zi0los*=eox%gl(kyax#un#dyu2d(^8uk=lc
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['appreviewsdjango.herokuapp.com']
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -91,6 +92,10 @@ WSGI_APPLICATION = 'appscraper.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
+DATABASE_URL = os.environ['DATABASE_URL']
+
+conn = psycopg2.connect(DATABASE_URL, sslmode='require')
+
 DATABASES = {
     'default': {
 
@@ -108,6 +113,9 @@ DATABASES = {
 
     }
 }
+
+import dj_database_url
+DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -189,3 +197,6 @@ CELERY_BEAT_SCHEDULE = {
 CORS_ORIGIN_WHITELIST = [
     'http://localhost:3000'
 ]
+
+import django_heroku
+django_heroku.settings(locals())
