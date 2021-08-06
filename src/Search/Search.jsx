@@ -41,7 +41,7 @@ const Search = (props) => {
           console.log(country)
             return (     
                 axios
-                    .get(`/api/${platform}/${appName}/${country}/`)
+                    .get(`http://localhost:8000/api/${platform}/${appName}/${country}/`)
                     .then((res) => res.data)
                     .catch((err) => {
                         console.error(err);
