@@ -24,6 +24,5 @@ yarn-error.log*
 
 celerybeat-schedule.db
 celerybeat.pid
-new
 *.rdb
 db.sqlite3

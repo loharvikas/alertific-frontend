@@ -28,7 +28,9 @@ SECRET_KEY = 'django-insecure-fr1vfpojn&=^75zi0los*=eox%gl(kyax#un#dyu2d(^8uk=lc
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+
 ALLOWED_HOSTS = ["*"]
+
 
 # Application definition
 
@@ -96,6 +98,7 @@ WSGI_APPLICATION = 'appscraper.wsgi.application'
 
 DATABASE_URL = os.environ['DATABASE_URL']
 conn = psycopg2.connect(DATABASE_URL, sslmode='require')
+
 DATABASES = {
     'default': {
 
