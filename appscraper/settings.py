@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 from pathlib import Path
 import psycopg2
+import django_heroku
 import dj_database_url
 import os
 
@@ -198,3 +199,5 @@ CELERY_BEAT_SCHEDULE = {
 CORS_ORIGIN_WHITELIST = [
     'http://localhost:3000'
 ]
+
+django_heroku.settings(locals())
