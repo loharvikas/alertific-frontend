@@ -28,9 +28,7 @@ SECRET_KEY = 'django-insecure-fr1vfpojn&=^75zi0los*=eox%gl(kyax#un#dyu2d(^8uk=lc
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-
 ALLOWED_HOSTS = ["*"]
-
 
 # Application definition
 
@@ -191,8 +189,6 @@ SERVER_EMAIL = 'alerts@alertific.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
-
-
 # CELERY CONFIGURATIONS
 CELERY_BROKER_URL = 'redis://localhost:6379'
 CELERY_RESULT_BACKEND = 'redis://localhost:6379'
@@ -211,5 +207,10 @@ CELERY_BEAT_SCHEDULE = {
 CORS_ORIGIN_WHITELIST = [
     'http://localhost:3000'
 ]
+
+import mimetypes
+
+mimetypes.add_type("text/css", ".css", True)
+mimetypes.add_type("text/javascript", ".js", True)
 
 django_heroku.settings(locals())
