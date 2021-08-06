@@ -1,1 +1,1 @@
-web: gunicorn appsraper.wsgi
+web: gunicorn appscraper.wsgi
