@@ -1,2 +1,2 @@
 release: python manage.py migrate
-web: gunicorn appsraper.wsgi
+web: gunicorn appsraper.wsgi 
