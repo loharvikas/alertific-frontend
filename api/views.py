@@ -6,7 +6,8 @@ from django.views.generic import View
 import play_scraper
 from itunes_app_scraper.scraper import AppStoreScraper
 from django.conf import settings
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse, HttpResponseNotFound
+import os
 
 
 class SubscriberAPIListView(generics.ListCreateAPIView):
@@ -36,14 +37,13 @@ class FeedbackSerializerView(generics.ListCreateAPIView):
 
 
 class GooglePlayAppListView(View):
-
     """
         Uses play_scraper library to search Google Play store
         API Endpoint: api/google/app_name/
         :return List of apps in JSON format.
     """
 
-    def get(self, request, app_name, country_code,*args, **kwargs):
+    def get(self, request, app_name, country_code, *args, **kwargs):
         """
         :param request:
         :param app_name: Use to search Google Play Store
@@ -63,7 +63,8 @@ class AppStoreAppListView(View):
         Uses itunes_app_scraper library to search App  store
         API Endpoint: api/apple/app_name/
     """
-    def get(self, request, app_name,country_code, *args, **kwargs):
+
+    def get(self, request, app_name, country_code, *args, **kwargs):
         """
         :param request:
         :param app_name: Use to search App store
@@ -85,6 +86,7 @@ class AppStoreAppListView(View):
             detail['icon'] = detail.pop('artworkUrl512')
             data.append(detail)
         return JsonResponse(data, safe=False)
+
 
 class Assets(View):
 
