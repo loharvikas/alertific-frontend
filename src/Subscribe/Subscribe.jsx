@@ -36,7 +36,7 @@ const Subscribe = (props) => {
         axios
             .post('/api/subscribe/', payload)
             .then((res) => {
-                console.log("fa")
+                console.log(res)
                 if (res.status===201) {
                     setIsSubscribe(true);
                     setEmail("");
