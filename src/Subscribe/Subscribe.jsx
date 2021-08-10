@@ -26,13 +26,13 @@ const Subscribe = (props) => {
     function subscribePost() {
         const payload = {
             subscriber: {
-                email: email,
+                email:email
             },
             google_play:platform === 'google'? data : undefined,
             app_store:platform === 'apple' ? data : undefined,
-            country: [{
-                'country_code': country,
-            }]
+            country: {
+                country_code:country
+            }
         }
         console.log({payload})
         axios
