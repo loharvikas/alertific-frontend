@@ -4,7 +4,7 @@ module.exports = function(app) {
   app.use(
     '/api',
     createProxyMiddleware({
-      target: 'https://alertific-backend.herokuapp.com',
+      target: 'http://localhost:5000',
       changeOrigin: true,
     })
   );

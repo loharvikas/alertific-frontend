@@ -25,16 +25,19 @@ const Subscribe = (props) => {
     const country = location.state.country
     function subscribePost() {
         const payload = {
-            email: email,
-            google_play:platform === 'google'? [data] : undefined,
-            app_store:platform === 'apple' ? [data] : undefined,
-            country: [{
-                'country_code': country,
-            }]
+            subscriber: {
+                email:email
+            },
+            google_play:platform === 'google'? data : undefined,
+            app_store:platform === 'apple' ? data : undefined,
+            country: {
+                country_code:country
+            }
+
         }
         console.log({payload})
         axios
-            .post('/api/subscribe/', payload)
+            .post('/api/subscription/', payload)
             .then((res) => {
                 console.log(res)
                 if (res.status===201) {
