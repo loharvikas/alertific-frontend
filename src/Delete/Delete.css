@@ -1,0 +1,53 @@
+:root {
+    --bg-primary: #FFFFFF;
+    --bg-secondary: #FD5E5E;
+    --txt-primary: #FF7171;
+    --txt-secondary: #696767;
+    --border-radius: 6px;
+    --danger: #df4759;
+    --info:  	#467fd0;
+}
+
+
+.delete-content {
+    text-align: center;
+    color: var(--txt-secondary);
+}
+
+.delete-form {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+
+}
+
+.delete-form  .delete {
+    border: none;
+    margin-top: 3rem;
+    border-radius: var(--border-radius);
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: center;
+    margin-left: 1rem;
+    cursor: pointer;
+    width: 250px;
+    color: var(--txt-secondary);
+    font-size: 1.2rem;
+    transition: 200ms ease-in;
+    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.05);
+    color: white;
+    font-weight: bold;
+
+}
+
+.delete-form  .delete:hover {
+    transform: scale(1.03);
+}
+
+.delete-form    .yes {
+    background-color: var(--txt-primary);
+}
+
+.delete-form    .no {
+    background-color: var(--txt-secondary);
+}

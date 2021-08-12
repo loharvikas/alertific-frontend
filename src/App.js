@@ -10,6 +10,7 @@ import Footer from './Footer/Footer'
 import ContactPage from './Contact/Contact'
 import Privacy from './Privacy/Privacy'
 import Terms from './Terms/Terms'
+import Delete from './Delete/Delete'
 
 
 function App() {
@@ -34,6 +35,9 @@ function App() {
           </Route>
           <Route exact path="/terms-of-user/">
             <Terms></Terms>
+          </Route>
+          <Route exact path="/delete/:id/">
+            <Delete></Delete>
           </Route>
           <Route exact path="/">
             <Platform></Platform>

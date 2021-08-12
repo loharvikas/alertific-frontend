@@ -3,11 +3,6 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import {usePromiseTracker} from 'react-promise-tracker'
-import {Loader} from 'react-loader-spinner';
-import Footer from './Footer/Footer'
-import { FormText } from 'react-bootstrap';
-import {BrowserRouter as Router} from 'react-router-dom'
 
 
 ReactDOM.render(
