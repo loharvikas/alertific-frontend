@@ -1,3 +1,4 @@
+
 import axios from 'axios';
 import {React, useState, useEffect} from 'react'
 import {useLocation, withRouter,} from 'react-router-dom';
@@ -33,13 +34,12 @@ const Subscribe = (props) => {
             country: {
                 country_code:country
             }
-
         }
         console.log({payload})
         axios
             .post('/api/subscription/', payload)
             .then((res) => {
-                console.log(res)
+                console.log("fa")
                 if (res.status===201) {
                     setIsSubscribe(true);
                     setEmail("");
