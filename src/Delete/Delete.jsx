@@ -1,10 +1,6 @@
 import {React, useState} from 'react'
 import {BrowserRouter as Router, Route, Switch, Link, withRouter} from 'react-router-dom';
-<<<<<<< HEAD
 import {axios} from 'axios';
-=======
-import axios from 'axios'
->>>>>>> 7ee834386f404c1f1996a3af4c500ba7814598d6
 import './Delete.css'
 
 axios.defaults.xsrfCookieName = 'csrftoken'
