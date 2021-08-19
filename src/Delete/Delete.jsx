@@ -47,7 +47,7 @@ const Delete = (props) => {
                     </header>
                     {deleteSub ?
                     <section className="message success">
-                    <h1><div>Deleted! </div>You’ll not receive any new update.</h1>
+                    <h1><div>Deleted! </div>You'll no longer receive this update.</h1>
                     </section>
                     :<span></span>
                 }
