@@ -43,7 +43,7 @@ const Delete = (props) => {
         <div className="container">
              <main className="delete-content">
                     <header>
-                        <h1>Are you sure you want to delete this subscription ?</h1>
+                        <h1>Are you sure you want to delete this subscription?</h1>
                     </header>
                     {deleteSub ?
                     <section className="message success">
