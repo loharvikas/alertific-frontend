@@ -1,4 +1,4 @@
-
+import ReactGA from 'react-ga';
 import logo from './logo.svg';
 import './App.css';
 import Base from './Base/Base'
@@ -12,6 +12,11 @@ import ContactPage from './Contact/Contact'
 import Privacy from './Privacy/Privacy'
 import Terms from './Terms/Terms'
 import Delete from './Delete/Delete'
+
+function initializeReactGA() {
+  ReactGA.initialize('G-ZTC5PR83WX');
+  ReactGA.pageview('/homepage');
+}
 
 
 function App() {
