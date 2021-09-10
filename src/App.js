@@ -15,7 +15,7 @@ import Delete from './Delete/Delete'
 
 function initializeReactGA() {
   ReactGA.initialize('G-ZTC5PR83WX');
-  ReactGA.pageview('/homepage');
+  ReactGA.pageview('/');
 }
 
 
