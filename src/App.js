@@ -1,9 +1,9 @@
 import './App.css';
-import {React, useEffect } from 'react';
+import { React, useEffect } from 'react';
 import Base from './Base/Base'
 import Platform from './Platform/Platform'
 import Search from './Search/Search'
-import {BrowserRouter as Router, Route, Switch, withRouter} from 'react-router-dom'
+import { BrowserRouter as Router, Route, Switch, withRouter } from 'react-router-dom'
 import Subscribe from './Subscribe/Subscribe';
 import Footer from './Footer/Footer'
 import ContactPage from './Contact/Contact'
@@ -11,24 +11,16 @@ import Privacy from './Privacy/Privacy'
 import Terms from './Terms/Terms'
 import Delete from './Delete/Delete'
 import ReactGA from 'react-ga';
-
-ReactGA.initialize('UA-207696426-1');
-ReactGA.pageview(window.location.pathname + window.location.search);
+import useGaTracker from './useGaTracker';
 
 function App() {
-  useEffect(() => {
-    ReactGA.initialize('UA-207734840-1');
-    ReactGA.pageview(window.location.pathname + window.location.search);
-  }, [])
 
-  useEffect(() => {
-   console.log(window.location.pathname)
-  })
+  useGaTracker();
   return (
     <div>
       <Router>
         <Route path="/">
-            <Base></Base>
+          <Base></Base>
         </Route>
         <Switch>
           <Route path='/search/:platform'>
