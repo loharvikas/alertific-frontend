@@ -10,11 +10,9 @@ import ContactPage from './Contact/Contact'
 import Privacy from './Privacy/Privacy'
 import Terms from './Terms/Terms'
 import Delete from './Delete/Delete'
-import useGaTracker from './useGaTracker';
 
 function App() {
 
-  useGaTracker();
   return (
     <div>
       <Router>
