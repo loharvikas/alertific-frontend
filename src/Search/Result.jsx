@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom'
 
 const Result = (props) => {
     const { app_list, platform, country } = props
+    console.log("RESULT")
+    console.log(app_list)
     if (app_list.length > 0) {
         return (
             <div className="result-container">

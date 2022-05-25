@@ -26,6 +26,8 @@ const Search = (props) => {
         setIsSearching(true);
         fetchApps(debouncedSearchTerm).then((results) => {
           setIsSearching(false);
+          console.log("RESULTS")
+          console.log(results)
           setAppList(results);
         });
       } else {
