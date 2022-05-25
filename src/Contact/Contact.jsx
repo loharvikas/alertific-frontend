@@ -1,16 +1,15 @@
-import {React, useState} from 'react'
+import { React, useState } from 'react'
 import axios from 'axios'
 import './Contact.css'
-import { getDefaultNormalizer } from '@testing-library/react'
-import {withRouter,} from 'react-router-dom';
+import { withRouter, } from 'react-router-dom';
 axios.defaults.xsrfCookieName = 'csrftoken'
 axios.defaults.xsrfHeaderName = 'X-CSRFToken'
 
 const Loader = () => {
     return (
-          <div class="loader__element"></div>
+        <div class="loader__element"></div>
     )
-  }
+}
 
 function ContactPage(props) {
     const [email, setEmail] = useState("");
@@ -22,16 +21,15 @@ function ContactPage(props) {
             'email': email,
             'message': message
         }
-        console.log({payload})
         axios
             .post("/api/feedback/", payload)
             .then((res) => {
-                if(res.status===201) {
+                if (res.status === 201) {
                     setEmail("");
                     setMessage("");
                     setIsSend(true);
                     setSubmit(false);
-                    setTimeout(function() {
+                    setTimeout(function () {
                         props.history.push("/")
                     }, 3500)
                 }
@@ -44,13 +42,13 @@ function ContactPage(props) {
                 <header className="subscribe-header">
                     <h1>Contact Us</h1>
                 </header>
-                {isSend && 
+                {isSend &&
                     <section className="message success">
-                    <h1>Thanks for your message – we’ll be right back to you!</h1>
+                        <h1>Thanks for your message – we’ll be right back to you!</h1>
                     </section>
                 }
                 {submit && <Loader />}
-                   
+
                 <form className="form-control" onSubmit={e => {
                     e.preventDefault();
                     setSubmit(true);
@@ -60,7 +58,7 @@ function ContactPage(props) {
                         <label htmlFor="email">
                             Email
                         </label>
-                        <input type="email" value={email} id="email" name="email" placeholder='Enter your email address' onChange={e=>setEmail(e.target.value)}></input>
+                        <input type="email" value={email} id="email" name="email" placeholder='Enter your email address' onChange={e => setEmail(e.target.value)}></input>
                     </div>
                     <div className="form-data">
                         <label htmlFor="message">

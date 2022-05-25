@@ -1,15 +1,14 @@
 import React from 'react';
-import {BrowserRouter as Router, Route, Switch, Link} from 'react-router-dom'
-import Platform from '../Platform/Platform';
+import { Link } from 'react-router-dom'
 
 const Result = (props) => {
-    const {app_list, platform, country} = props
-    if(app_list.length > 0) {
+    const { app_list, platform, country } = props
+    if (app_list.length > 0) {
         return (
             <div className="result-container">
                 {
                     app_list.map(app => (
-                     
+
                         <App
                             appName={app.title}
                             developerName={app.developer}
@@ -31,38 +30,38 @@ const Result = (props) => {
 }
 
 const App = (props) => {
-    const {appName, developerName, appImage, app_id, developerId, platform, country} = props;
+    const { appName, developerName, appImage, app_id, developerId, platform, country } = props;
     console.log(platform)
     return (
         <div className="result">
+            <div>
                 <div>
-                    <div>
-                        <div className="img">
-                            <img src={appImage}></img>
-                        </div>
-                        <div className="content">
-                            <h3 className="title">{appName}</h3>
-                            <p className="info">{developerName}</p>
-                        </div>
+                    <div className="img">
+                        <img src={appImage} alt="user profile"></img>
                     </div>
-                    <div>
-                        <Link  to={{
-                                    pathname: "/subscribe/",
-                                    state: {
-                                        data:{
-                                            app_name:appName,
-                                            app_id:app_id,
-                                            developer_id:developerId,
-                                            app_icon:appImage,
-                                        },
-                                        country:country,
-                                        services:platform,
-                                      
-                                    },
-                                }}>
-                            <button type="submit" className='select-btn'>Select</button>
-                        </Link>
+                    <div className="content">
+                        <h3 className="title">{appName}</h3>
+                        <p className="info">{developerName}</p>
                     </div>
+                </div>
+                <div>
+                    <Link to={{
+                        pathname: "/subscribe/",
+                        state: {
+                            data: {
+                                app_name: appName,
+                                app_id: app_id,
+                                developer_id: developerId,
+                                app_icon: appImage,
+                            },
+                            country: country,
+                            services: platform,
+
+                        },
+                    }}>
+                        <button type="submit" className='select-btn'>Select</button>
+                    </Link>
+                </div>
             </div>
 
         </div>

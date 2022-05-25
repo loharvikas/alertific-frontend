@@ -1,16 +1,15 @@
 import './App.css';
-import { React, useEffect } from 'react';
+import { React } from 'react';
 import Base from './Base/Base'
 import Platform from './Platform/Platform'
 import Search from './Search/Search'
-import { BrowserRouter as Router, Route, Switch, withRouter } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import Subscribe from './Subscribe/Subscribe';
 import Footer from './Footer/Footer'
 import ContactPage from './Contact/Contact'
 import Privacy from './Privacy/Privacy'
 import Terms from './Terms/Terms'
 import Delete from './Delete/Delete'
-import ReactGA from 'react-ga';
 import useGaTracker from './useGaTracker';
 
 function App() {

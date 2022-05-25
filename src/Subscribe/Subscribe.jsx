@@ -1,9 +1,7 @@
 
 import axios from 'axios';
-import {React, useState, useEffect} from 'react'
-import {useLocation, withRouter,} from 'react-router-dom';
-import {BrowserRouter as Router, Route, Switch, Link, Redirect} from 'react-router-dom';
-import ReactFlagsSelect from 'react-flags-select';
+import { React, useState } from 'react'
+import { useLocation, withRouter, } from 'react-router-dom';
 import './Subscribe.css'
 
 axios.defaults.xsrfCookieName = 'csrftoken'
@@ -11,9 +9,9 @@ axios.defaults.xsrfHeaderName = 'X-CSRFToken'
 
 const Loader = () => {
     return (
-          <div class="loader__element"></div>
+        <div class="loader__element"></div>
     )
-  }
+}
 
 const Subscribe = (props) => {
     const location = useLocation();
@@ -27,25 +25,25 @@ const Subscribe = (props) => {
     function subscribePost() {
         const payload = {
             subscriber: {
-                email:email
+                email: email
             },
-            google_play:platform === 'google'? data : undefined,
-            app_store:platform === 'apple' ? data : undefined,
+            google_play: platform === 'google' ? data : undefined,
+            app_store: platform === 'apple' ? data : undefined,
             country: {
-                country_code:country
+                country_code: country
             }
         }
-        console.log({payload})
+        console.log({ payload })
         axios
             .post('/api/subscription/', payload)
             .then((res) => {
                 console.log("fa")
-                if (res.status===201) {
+                if (res.status === 201) {
                     setIsSubscribe(true);
                     setEmail("");
                     setSubmit(false);
                     setError(false);
-                    setTimeout(function() {
+                    setTimeout(function () {
                         props.history.push("/")
                     }, 3500)
                 }
@@ -53,7 +51,8 @@ const Subscribe = (props) => {
             .catch((err) => {
                 setError(true);
                 setSubmit(false);
-                console.error(err)})
+                console.error(err)
+            })
     }
 
     return (
@@ -64,29 +63,29 @@ const Subscribe = (props) => {
             <div className="form-body">
                 {isSubscribe ?
                     <section className="message success">
-                    <h1><div>Success! </div>You’ll now be alerted to new app reviews</h1>
+                        <h1><div>Success! </div>You’ll now be alerted to new app reviews</h1>
                     </section>
-                    :<span></span>
+                    : <span></span>
                 }
-                {error ? 
+                {error ?
                     <section className="message danger">
-                    <h1>Subscription with this email already exists. Select a different region or app or email</h1>
+                        <h1>Subscription with this email already exists. Select a different region or app or email</h1>
                     </section>
-                    :<span></span>}
+                    : <span></span>}
                 <div className="loader">
-                    {submit && <Loader /> }
+                    {submit && <Loader />}
                 </div>
-                <form className='form-control' 
+                <form className='form-control'
                     onSubmit={(e) => {
-                            e.preventDefault();
-                            setSubmit(true);
-                            subscribePost();
-                }}>
+                        e.preventDefault();
+                        setSubmit(true);
+                        subscribePost();
+                    }}>
                     <div>
                         <input type='email' placeholder='Enter your email address' value={email} onChange={(e) => setEmail(e.target.value)}></input>
                         <p className="input-info">We'll never share this with anyone else</p>
                     </div>
-                    {!isSubscribe &&    <button className="subscribe-btn btn" type="submit">Create my alert</button>}
+                    {!isSubscribe && <button className="subscribe-btn btn" type="submit">Create my alert</button>}
                 </form>
             </div>
         </div>
