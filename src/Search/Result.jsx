@@ -31,7 +31,6 @@ const Result = (props) => {
 
 const App = (props) => {
     const { appName, developerName, appImage, app_id, developerId, platform, country } = props;
-    console.log(platform)
     return (
         <div className="result">
             <div>
